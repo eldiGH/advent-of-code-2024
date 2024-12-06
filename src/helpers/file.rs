@@ -1,14 +1,31 @@
 use std::{
     fs::File,
-    io::{BufRead, BufReader},
+    io::{BufRead, BufReader, Lines},
+    iter::Flatten,
 };
 
-pub fn read_two_number_columns_input(list1: &mut [i32; 1000], list2: &mut [i32; 1000]) {
-    let file = File::open("./input1.txt").unwrap();
-    let lines = BufReader::new(file).lines();
+fn read_lines(path: &str) -> Flatten<Lines<BufReader<File>>> {
+    let file = File::open(path).unwrap();
+    BufReader::new(file).lines().flatten()
+}
 
+pub fn read_row_of_numbers(path: &str) -> impl Iterator<Item = Vec<i32>> {
+    read_lines(path).map(|line| {
+        let mut vec: Vec<i32> = vec![];
+
+        let entries = line.split(" ");
+
+        for entry in entries {
+            vec.push(entry.parse().unwrap());
+        }
+
+        vec
+    })
+}
+
+pub fn read_two_number_columns_input(list1: &mut [i32; 1000], list2: &mut [i32; 1000]) {
     let mut line_index = 0;
-    for line in lines.flatten() {
+    for line in read_lines("./inputs/1.txt") {
         let numbers: Vec<&str> = line.trim().split("   ").collect();
 
         list1[line_index] = numbers[0].parse().unwrap();
