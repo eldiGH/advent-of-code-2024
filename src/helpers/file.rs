@@ -1,6 +1,6 @@
 use std::{
     fs::File,
-    io::{BufRead, BufReader, Lines},
+    io::{BufRead, BufReader, Lines, Read},
     iter::Flatten,
 };
 
@@ -33,4 +33,14 @@ pub fn read_two_number_columns_input(list1: &mut [i32; 1000], list2: &mut [i32; 
 
         line_index += 1;
     }
+}
+
+pub fn read_whole(path: &str) -> String {
+    let mut file = File::open(path).unwrap();
+
+    let mut buf = String::new();
+
+    file.read_to_string(&mut buf).unwrap();
+
+    return buf;
 }
