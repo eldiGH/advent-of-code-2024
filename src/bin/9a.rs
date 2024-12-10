@@ -67,11 +67,5 @@ fn main() {
         sum += (i as u64) * ((*id) as u64);
     }
 
-    let mut file = File::create("./test.txt").unwrap();
-
-    for (i, id) in blocks.iter().enumerate() {
-        file.write_fmt(format_args!("{}. {}\n", i, id)).unwrap();
-    }
-
     println!("{}", sum);
 }
