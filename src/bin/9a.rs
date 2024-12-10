@@ -5,7 +5,7 @@ use advent_of_code_2024::helpers::file::read_whole;
 const EMPTY_SPACE_VALUE: u16 = std::u16::MAX;
 
 fn main() {
-    let disk = read_whole("./inputs/3.txt");
+    let disk = read_whole("./inputs/9.txt");
 
     let mut blocks: Vec<u16> = vec![];
 

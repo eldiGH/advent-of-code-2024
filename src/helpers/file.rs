@@ -4,7 +4,7 @@ use std::{
     iter::Flatten,
 };
 
-fn read_lines(path: &str) -> Flatten<Lines<BufReader<File>>> {
+pub fn read_lines(path: &str) -> Flatten<Lines<BufReader<File>>> {
     let file = File::open(path).unwrap();
     BufReader::new(file).lines().flatten()
 }
