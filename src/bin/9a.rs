@@ -1,5 +1,3 @@
-use std::{fs::File, io::Write};
-
 use advent_of_code_2024::helpers::file::read_whole;
 
 const EMPTY_SPACE_VALUE: u16 = std::u16::MAX;
