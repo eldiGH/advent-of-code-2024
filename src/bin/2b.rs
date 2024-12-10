@@ -1,11 +1,20 @@
 use advent_of_code_2024::helpers::file::read_row_of_numbers;
 
+fn copy_vec_without_index(vec: &Vec<i32>, index: usize) -> Vec<i32> {
+    let mut copied_vec: Vec<i32> = vec![];
+    for (i, element) in vec.iter().enumerate() {
+        if i != index {
+            copied_vec.push(*element);
+        }
+    }
+
+    copied_vec
+}
+
 fn is_report_safe(report: &Vec<i32>, dampened: bool) -> bool {
     let is_increasing = report[0] < report[1];
 
     let mut i = 1;
-
-    println!("{:?}", report);
 
     while i < report.len() {
         let alert = report[i];
@@ -22,26 +31,14 @@ fn is_report_safe(report: &Vec<i32>, dampened: bool) -> bool {
                 return false;
             }
 
-            let mut new_report = report
-                .clone()
-                .into_iter()
-                .take(i)
-                .skip(1)
-                .take(999)
-                .collect();
-
-            if is_report_safe(&new_report, true) {
-                return true;
+            for i in 0..report.len() {
+                if is_report_safe(&copy_vec_without_index(report, i), true) {
+                    return true;
+                }
             }
 
-            new_report = report
-                .clone()
-                .into_iter()
-                .take(i - 1)
-                .skip(1)
-                .take(999)
-                .collect();
-            return is_report_safe(&new_report, true);
+            println!("{:?}", report);
+            return false;
         }
 
         i += 1;
@@ -51,9 +48,13 @@ fn is_report_safe(report: &Vec<i32>, dampened: bool) -> bool {
 }
 
 fn main() {
-    let safe_reports: i32 = read_row_of_numbers("./inputs/2.txt")
-        .map(|report| is_report_safe(&report, false) as i32)
-        .sum();
+    let mut safe_reports = 0;
+
+    for report in read_row_of_numbers("./inputs/2.txt") {
+        if is_report_safe(&report, false) {
+            safe_reports += 1;
+        }
+    }
 
     println!("Safe reports: {}", safe_reports)
 }
